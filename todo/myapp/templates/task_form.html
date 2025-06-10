@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+Form Page
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-blue-50 py-10 px-4">
+  <div class="max-w-2xl mx-auto">
+    <h1 class="text-3xl font-bold text-center text-blue-600 mb-6">
+      {% if form.instance.pk %} Edit Task {% else %} Create Task {% endif %}
+    </h1>
+
+    <form method="POST" enctype="multipart/form-data"
+          class=" border text-black border-gray-300 rounded-xl px-8 pt-6 pb-8 space-y-4">
+      {% csrf_token %}
+
+      <!-- Title -->
+      <div>
+        <label for="{{ form.title.id_for_label }}" class="block font-medium mb-1">Title</label>
+        {{ form.title|add_class:"w-full border border-gray-400 rounded px-3 py-2" }}
+        {{ form.title.errors }}
+      </div>
+
+      <!-- Description -->
+      <div>
+        <label for="{{ form.description.id_for_label }}" class="block font-medium mb-1">Description</label>
+        {{ form.description|add_class:"w-full border border-gray-400 rounded px-3 py-2" }}
+        {{ form.description.errors }}
+      </div>
+
+      <!-- Priority -->
+      <div>
+        <label for="{{ form.priority.id_for_label }}" class="block font-medium mb-1">Priority</label>
+        {{ form.priority|add_class:"w-full border border-gray-400 rounded px-3 py-2" }}
+        {{ form.priority.errors }}
+      </div>
+
+      <!-- Status (Checkbox) -->
+      <div class="flex items-center space-x-2">
+        {{ form.status }}
+        <label for="{{ form.status.id_for_label }}" class="font-medium">Completed?</label>
+        {{ form.status.errors }}
+      </div>
+
+      <!-- File Upload -->
+      <div>
+        <label for="{{ form.file.id_for_label }}" class="block font-medium mb-1">Upload File</label>
+        {{ form.file|add_class:"w-full border border-gray-400 rounded px-3 py-2 bg-white" }}
+        {{ form.file.errors }}
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex justify-between mt-6">
+        <button type="submit"
+                class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-md">
+          Submit
+        </button>
+        <a href="{% url 'task_list' %}" class="text-blue-600 hover:underline font-medium">
+          ← Back to Task List
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
